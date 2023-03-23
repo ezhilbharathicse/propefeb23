@@ -1,0 +1,259 @@
+1. Write a query to load rows into My_Employee table (employees id, firstname, lastname, salary). Concatenate first letter of firstname and first seven characters 
+of lastname to produce userid.
+2. List the minimum salary of various categories of employees in various departments having minimum salary greater than 1000.
+select salary from myemployee where salary>1000
+3. Display the name, with first letter capitalized and all other letters as lower case and length of their name for all employees whose name starts with J or M.
+4. Find the position of ‘A’ in the names of all employees.
+5. Display minimum, maximum, sum and average salary for each job.
+6. Display employee number, name, salary, salary increased by 15% rounded to to 2 decimal places. Label column New Salary.
+7. Create a query to display name and salary for all employees. Format salary to be 15 characters long left padded with $.
+8. Create a query that will display employee name and commission amount. If employee does not earn commission, put ‘No Commission’.
+9. Display all information from student table where student firstname is only 10 characters.
+10. Display manager number and salary of lowest paid employee for each manager. Exclude anyone whose manager is not known. Exclude any group where the minimum 
+salary is less than $1000. Sort output in descending order of salary.
+11. Display employee name, hiredate and salary review date which is the first Monday after 6 months of service. Label column Review. Format dates to appear in
+format similar to ‘Sunday, the Seventh of September, 1981’.
+l2. For each employee display the employee name and calculated number of months between today and date employee was hired. 
+Label the column Months_Worked. Order your result by number of months employed. Round number of month up to closest whole number.
+13. Report needed: Name of Employee and Bonus. The salary should be rounded to the nearest thousand before calculating the Bonus.
+Bonus = 30% of annual income. Eg: If salary is 23436; round it as 23000 before calculating the Bonus 30 % of (23000 * 12).
+===================================================================================================================================================================
+1.
+create table myemployee(
+employee_id int primary key not null,
+firstname varchar(20), 
+lastname varchar(20),
+salary number(10,2)
+);
+
+desc myemployee
+
+insert all
+into myemployee(employee_id,firstname,lastname,salary)
+values(1,'godwin','glivin',10000)
+into myemployee(employee_id,firstname,lastname,salary)
+values(2,'sarbas','gokulkrishna',25000)
+into myemployee(employee_id,firstname,lastname,salary)
+values(3,'gokul','sarbaskrishna',15000)
+SELECT * from dual; 
+
+select * from myemployee
+
+select concat(substr(firstname,1,1),substr(lastname,1,7)) as "userid" from myemployee
+
+desc myemployee
+===============================================================================================
+2.
+
+select salary from myemployee where salary>1000
+====================================================
+3.
+insert all
+into myemployee(employee_id,firstname,lastname,salary)
+values(4,'jgodwin','glivin',10000)
+into myemployee(employee_id,firstname,lastname,salary)
+values(5,'msarbas','gokulkrishna',25000)
+into myemployee(employee_id,firstname,lastname,salary)
+values(6,'kgokul','sarbaskrishna',15000)
+SELECT * from dual;
+
+select * from myemployee
+
+select initcap(firstname),length(firstname) from myemployee where firstname like 'j%' or firstname like 'm%'
+================================================================================================================
+4.
+select * from myemployee
+select instr(firstname,'a',1) from myemployee
+
+select instr(concat(firstname,lastname),'a',1) from myemployee
+select concat(firstname,lastname)as "fullname" from myemployee
+================================================================
+5.
+select min(salary) from myemployee
+select max(salary) from myemployee
+select sum(salary) from myemployee
+select avg(salary) from myemployee
+======================================
+6.
+insert all
+into myemployee(employee_id,firstname,lastname,salary)
+values(7,'jjgodwin','gglivin',10150.50)
+into myemployee(employee_id,firstname,lastname,salary)
+values(8,'mmsarbas','ggokulkrishna',25300.50)
+into myemployee(employee_id,firstname,lastname,salary)
+values(9,'kkgokul','ssarbaskrishna',15250.50)
+SELECT * from dual;
+
+select employee_id,firstname,salary,round((salary+.15*salary),2) as "new salary" from myemployee
+=================================================================================================
+7.
+select firstname,LPAD(salary,15,'$') as "SALARY" from myemployee;
+==================================================================
+8.
+create table employee10(
+employid int,
+firstname varchar(50),
+lastname varchar(50),
+salary number(10,2),
+commission varchar(10)
+);
+
+insert all
+into employee10(employid,firstname,lastname,salary,commission )
+values(1,'godwin','glivin',10000,500)
+into employee10(employid,firstname,lastname,salary,commission )
+values(2,'gokul','krishnan',35000,null)
+into employee10(employid,firstname,lastname,salary,commission )
+values(3,'ezhil','bharathik',10500,250)
+into employee10(employid,firstname,lastname,salary,commission )
+values(4,'jksarbas','muthangal',15000,500)
+into employee10(employid,firstname,lastname,salary,commission )
+values(5,'mygokul','krishnan',25000,null)
+select * from dual;
+select * from employee10
+
+
+select firstname,nvl(to_char(commission ),'no commission') from employee10
+==========================================================================
+
+9.
+create table student(
+studentid int primary key not null,
+firstname varchar(20),
+lastname varchar(20)
+);
+desc student
+
+insert all
+into student(studentid,firstname,lastname)
+values(1,'godwin','glivin')
+into student(studentid,firstname,lastname)
+values(2,'godwingodwin','glivin')
+into student(studentid,firstname,lastname)
+values(3,'godwinglivin','glivin')
+select * from dual;
+select * from student
+
+select studentid,firstname,lastname from student where length(firstname)>10
+==============================================================================
+10.
+create table employee(
+empid int,
+empname varchar(25),
+managerid int,
+salary number(10,2)
+);
+
+insert all
+into employee(empid ,empname,managerid ,salary)
+values(1,'godwin',11,1000)
+into employee(empid ,empname,managerid ,salary)
+values(2,'sarbas',12,888)
+into employee(empid ,empname,managerid ,salary)
+values(3,'gokul',13,1100)
+into employee(empid ,empname,managerid ,salary)
+values(4,'aakash',14,1200)
+into employee(empid ,empname,managerid ,salary)
+values(5,'karthik',15,1300)
+into employee(empid ,empname,managerid ,salary)
+values(6,'vijin',16,600)
+into employee(empid ,empname,managerid ,salary)
+values(7,'ragul',17,2500)
+into employee(empid ,empname,managerid ,salary)
+values(8,'ezhlil',18,1250)
+select * from dual;
+select * from employee
+
+select managerid,min(salary) from employee where managerid is not null group by managerid having min(salary)>1000 order by min(salary) desc;
+============================================================================================================================================
+10.
+create table employee(
+empid int,
+empname varchar(25),
+managerid int,
+salary number(10,2)
+);
+
+insert all
+into employee(empid ,empname,managerid ,salary)
+values(1,'godwin',11,1000)
+into employee(empid ,empname,managerid ,salary)
+values(2,'sarbas',12,888)
+into employee(empid ,empname,managerid ,salary)
+values(3,'gokul',13,1100)
+into employee(empid ,empname,managerid ,salary)
+values(4,'aakash',14,1200)
+into employee(empid ,empname,managerid ,salary)
+values(5,'karthik',15,1300)
+into employee(empid ,empname,managerid ,salary)
+values(6,'vijin',16,600)
+into employee(empid ,empname,managerid ,salary)
+values(7,'ragul',17,2500)
+into employee(empid ,empname,managerid ,salary)
+values(8,'ezhlil',18,1250)
+select * from dual;
+select * from employee
+
+select managerid,min(salary) from employee where managerid is not null group by managerid having min(salary)>1000 order by min(salary) desc;
+================================================================================================================================================
+11.
+select empname,hiredate ,to_char(to_date(next_day(add_months(hiredate ,6),'MONDAY')),'Day, ddspth "of" Month, YYYY') as "salar review date" from employee1
+
+or
+
+/*to_char function*/
+
+#to_char (inputvalue, format)
+******************************
+select name, to_char(hiredate,'ddspth "of' mon yyyy'),
+to_char(next_day(add_months(hiredate,6), 'monday'),'ddspth "of" mon yyyy')
+from employee1;
+==================================================================================================================================================
+
+12.
+create table employee1(
+empid int,
+empname varchar(25),
+managerid int,
+salary number(10,2),
+hiredate date,
+bonus number(10,2)
+);
+insert all
+into employee1(empid ,empname,managerid ,salary ,hiredate ,bonus )
+values(1,'godwin',11,10000,'11/03/2021',null)
+into employee1(empid ,empname,managerid ,salary ,hiredate ,bonus )
+values(2,'sarbas',12,10800,'07/10/2021',null)
+into employee1(empid ,empname,managerid ,salary ,hiredate ,bonus )
+values(3,'karthik',100,1130,'03/08/2020',null)
+into employee1(empid ,empname,managerid ,salary ,hiredate ,bonus )
+values(4,'jsy',null,1450,'11/11/2020',null)
+select * from dual;
+select * from employee1
+
+SELECT empname,round(MONTHS_BETWEEN(SYSDATE,hiredate )) AS "MONTHS_WORKED" FROM
+employee1 ORDER BY MONTHS_WORKED ;
+===================================================================================
+13.
+update employee1 set bonus=round(salary/1000)*1000*.3
+select empname,bonus from employee1
+9.
+create table student(
+studentid int primary key not null,
+firstname varchar(20),
+lastname varchar(20)
+);
+desc student
+
+insert all
+into student(studentid,firstname,lastname)
+values(1,'godwin','glivin')
+into student(studentid,firstname,lastname)
+values(2,'godwingodwin','glivin')
+into student(studentid,firstname,lastname)
+values(3,'godwinglivin','glivin')
+select * from dual;
+select * from student
+
+select studentid,firstname,lastname from student where length(firstname)>10
+================================================================================
