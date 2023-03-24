@@ -1,0 +1,107 @@
+create table employee10(
+employeeid number(10) primary key,
+employeename varchar(30),
+phone number(20),
+email varchar(20),
+areacode number(10)
+);
+
+insert all
+into employee10(employeeid,employeename,phone,email,areacode)
+values(101,'rahul',7560835034,'rahul@gamil.com',1345)
+into employee10(employeeid,employeename,phone,email,areacode)
+values(102,'ravi',9847847096,'ravi@gmail.com',2010)
+into employee10(employeeid,employeename,phone,email,areacode)
+values(103,'rajesh',7025736996,'rajesh@gmail.com',2544)
+into employee10(employeeid,employeename,phone,email,areacode)
+values(104,'ramu',9446519379,'ramu@gmail.com',1324)
+select * from dual;
+select * from employee10
+
+create table manufacturer2(
+manufacturername varchar(20) primary key,
+city varchar(20),
+state varchar(20)
+);
+
+insert all
+into manufacturer2(manufacturername,city,state)
+values('lenovo','sanfransisco','washington')
+into manufacturer2(manufacturername,city,state)
+values('hcl','rosariotown','southkorea')
+into manufacturer2(manufacturername,city,state)
+values('sony','helltown','capetown')
+into manufacturer2(manufacturername,city,state)
+values('samsung','silvercity','misoram')
+select * from dual;
+select * from manufacturer2
+
+create table computer4(
+serialnumber number(10) primary key,
+manufacturername varchar(20),
+constraint fk_71 foreign key(manufacturername) references manufacturer(manufacturername),
+model number(20),
+weight number(10),
+employeeid number(10),
+constraint fk_78 foreign key(employeeid) references employee10(employeeid),
+isactive varchar(20)
+);
+
+insert all
+into computer4(serialnumber,manufacturername,model,weight,employeeid,isactive)
+values(202,'lenovo',501,206,101,'use')
+into computer4(serialnumber,manufacturername,model,weight,employeeid,isactive)
+values(204,'hp',502,210,102,'no use')
+into computer4(serialnumber,manufacturername,model,weight,employeeid,isactive)
+values(206,'dell',503,215,103,'no use')
+into computer4(serialnumber,manufacturername,model,weight,employeeid,isactive)
+values(208,'samsung',504,220,104,'use')
+select * from dual;
+select * from computer4
+
+select * from manufacturer2
+
+select mfname from manufacturer2 where state= 'southdakota';
+
+select * from computer4
+select avg(weight) from computer where isactive='use';
+
+select * from employee10
+select empname from employee10 where areacode like '2%';
+
+select * from computer4
+select serialnumber from computer where weight<(select avg(weight) from computer);
+
+SELECT * FROM manufacturer1 WHERE mfname=(SELECT mfname  FROM computer WHERE isactive='no use');
+
+create view view_total as
+select e.empname,c.serialnumber,m.city from employee10 e inner join computer c
+on(e.employeeid=c.employeeid)
+inner join manufacturer2 m
+on(c.mfname=m.mfname);
+
+
+
+select * from computer4
+
+Write a Stored Procedure to accept EmployeeId as parameter and
+List the serial number, manufacturer name, model, and weight of
+computer that belong to the specified Employeeid.
+
+
+create or replace procedure selection(employeeid in number)
+is
+snum number(20);
+mname varchar(20;
+mod  number(20);
+wt number(20);
+
+begin
+eid:=employeeid;
+select serialnumber,mfname,model,weight into snum,mname,mod,wt from computer where employeeid=eid;
+END;
+
+
+
+
+
